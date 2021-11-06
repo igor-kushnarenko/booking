@@ -1,5 +1,40 @@
 from rest_framework import serializers
-from board.models import User, Booking
+from board.models import User, Booking, Service, Rate, PriceRate, Chair, Time
+
+
+class TimeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Time
+        fields = ('id', 'start_time')
+
+
+class ChairSerializer(serializers.ModelSerializer):
+    service_name = serializers.CharField(source='service')
+
+    class Meta:
+        model = Chair
+        fields = ('id', 'service_name', 'number')
+
+
+class PriceRateSerializer(serializers.ModelSerializer):
+    service_name = serializers.CharField(source='service')
+    rate_name = serializers.CharField(source='rate')
+
+    class Meta:
+        model = PriceRate
+        fields = ('id', 'service_name', 'rate_name', 'price')
+
+
+class ServiceSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Service
+        fields = ['name']
+
+
+class RateSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Rate
+        fields = ['name']
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
