@@ -12,5 +12,4 @@ router.register(r'booking', BookingViewSet)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('router/', include(router.urls)),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
