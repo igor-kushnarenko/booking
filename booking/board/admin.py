@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from board.models import User, Service, Rate, PriceRate, Chair, Time, Booking
+from board.models import User, Service, Rate, Chair, Time, Booking
 
 
 @admin.register(User)
@@ -19,9 +19,9 @@ class RateAdmin(admin.ModelAdmin):
     list_display = ['name']
 
 
-@admin.register(PriceRate)
-class PriceRateAdmin(admin.ModelAdmin):
-    list_display = ['service', 'rate', 'price']
+# @admin.register(PriceRate)
+# class PriceRateAdmin(admin.ModelAdmin):
+#     list_display = ['service', 'rate', 'price']
 
 
 @admin.register(Chair)

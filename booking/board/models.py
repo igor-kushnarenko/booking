@@ -28,6 +28,15 @@ class Service(models.Model):
 
 class Rate(models.Model):
     name = models.CharField(max_length=30, verbose_name='Тариф')
+    price = models.FloatField(verbose_name='Стоимость', default=None)
+    service = models.ForeignKey(
+        Service,
+        on_delete=models.SET_DEFAULT,
+        default=None,
+        null=True,
+        verbose_name='Сервис',
+        related_name='rate'
+    )
 
     def __str__(self):
         return f'{self.name}'
@@ -37,31 +46,31 @@ class Rate(models.Model):
         verbose_name = 'Тариф'
 
 
-class PriceRate(models.Model):
-    service = models.ForeignKey(
-        Service,
-        on_delete=models.SET_DEFAULT,
-        default=None,
-        null=True,
-        verbose_name='Сервис',
-        related_name='price_rate'
-    )
-    rate = models.ForeignKey(
-        Rate,
-        on_delete=models.SET_DEFAULT,
-        default=None,
-        null=True,
-        verbose_name='Тариф',
-        related_name='price_rate'
-    )
-    price = models.FloatField(verbose_name='Стоимость')
-
-    def __str__(self):
-        return f'{self.service} - {self.rate} - {self.price}'
-
-    class Meta:
-        verbose_name_plural = 'Стоимости'
-        verbose_name = 'Стоимость'
+# class PriceRate(models.Model):
+#     service = models.ForeignKey(
+#         Service,
+#         on_delete=models.SET_DEFAULT,
+#         default=None,
+#         null=True,
+#         verbose_name='Сервис',
+#         related_name='price_rate'
+#     )
+#     rate = models.ForeignKey(
+#         Rate,
+#         on_delete=models.SET_DEFAULT,
+#         default=None,
+#         null=True,
+#         verbose_name='Тариф',
+#         related_name='price_rate'
+#     )
+#     price = models.FloatField(verbose_name='Стоимость')
+#
+#     def __str__(self):
+#         return f'{self.service} - {self.rate} - {self.price}'
+#
+#     class Meta:
+#         verbose_name_plural = 'Стоимости'
+#         verbose_name = 'Стоимость'
 
 
 class Chair(models.Model):
@@ -129,7 +138,7 @@ class Booking(models.Model):
         related_name='booking'
     )
     rate = models.ForeignKey(
-        PriceRate,
+        Rate,
         on_delete=models.SET_DEFAULT,
         default=None,
         null=True,

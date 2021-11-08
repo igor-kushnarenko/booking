@@ -24,9 +24,9 @@ class ServiceViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.ServiceSerializer
 
 
-class PriceRateViewSet(viewsets.ModelViewSet):
-    queryset = models.PriceRate.objects.all()
-    serializer_class = serializers.PriceRateSerializer
+# class PriceRateViewSet(viewsets.ModelViewSet):
+#     queryset = models.PriceRate.objects.all()
+#     serializer_class = serializers.PriceRateSerializer
 
 
 class TimeViewSet(viewsets.ModelViewSet):
