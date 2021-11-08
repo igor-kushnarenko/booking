@@ -1,4 +1,4 @@
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets
 
 from board import serializers
 from board import models
@@ -9,14 +9,9 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.UserSerializer
 
 
-class BookingViewSet(viewsets.ModelViewSet):
-    queryset = models.Booking.objects.all()
-    serializer_class = serializers.BookingSerializer
-
-
-class RateViewSet(viewsets.ModelViewSet):
-    queryset = models.Rate.objects.all()
-    serializer_class = serializers.RateSerializer
+class SeatsViewSet(viewsets.ModelViewSet):
+    queryset = models.Seats.objects.all()
+    serializer_class = serializers.SeatsSerializer
 
 
 class ServiceViewSet(viewsets.ModelViewSet):
@@ -24,11 +19,16 @@ class ServiceViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.ServiceSerializer
 
 
+class VaultViewSet(viewsets.ModelViewSet):
+    queryset = models.Vault.objects.all()
+    serializer_class = serializers.VaultSerializer
+
+
 class TimeViewSet(viewsets.ModelViewSet):
     queryset = models.Time.objects.all()
     serializer_class = serializers.TimeSerializer
 
 
-class ChairViewSet(viewsets.ModelViewSet):
-    queryset = models.Chair.objects.all()
-    serializer_class = serializers.ChairSerializer
+class RateViewSet(viewsets.ModelViewSet):
+    queryset = models.Rate.objects.all()
+    serializer_class = serializers.RateSerializer

@@ -1,34 +1,59 @@
 from django.contrib import admin
 
-from board.models import User, Service, Rate, Chair, Time, Booking
+from board import models
 
 
-@admin.register(User)
+@admin.register(models.User)
 class UserAdmin(admin.ModelAdmin):
-    list_display = ['first_name', 'second_name', 'email']
+    list_display = ['second_name', 'first_name', 'email']
     list_display_links = ['second_name']
 
 
-@admin.register(Service)
+@admin.register(models.Auth)
+class AuthAdmin(admin.ModelAdmin):
+    list_display = ['user', 'login', 'password']
+
+
+@admin.register(models.Service)
 class ServiceAdmin(admin.ModelAdmin):
     list_display = ['name']
 
 
-@admin.register(Rate)
-class RateAdmin(admin.ModelAdmin):
-    list_display = ['name']
+@admin.register(models.Seats)
+class SeatsAdmin(admin.ModelAdmin):
+    list_display = ['service', 'seat_number']
 
 
-@admin.register(Chair)
-class ChairAdmin(admin.ModelAdmin):
-    list_display = ['service', 'number']
+@admin.register(models.Vault)
+class VaultAdmin(admin.ModelAdmin):
+    list_display = ['service', 'vault_number']
 
 
-@admin.register(Booking)
-class BookingAdmin(admin.ModelAdmin):
-    list_display = ['user', 'service', 'date', 'time', 'chair', 'rate']
+@admin.register(models.Visit)
+class VisitAdmin(admin.ModelAdmin):
+    list_display = ['date_visit', 'time', 'service', 'user']
 
 
-@admin.register(Time)
+@admin.register(models.Time)
 class TimeAdmin(admin.ModelAdmin):
     list_display = ['start_time']
+
+
+@admin.register(models.Ticket)
+class TicketAdmin(admin.ModelAdmin):
+    list_display = ['visit', 'reservation', 'ticket_number', 'number_persons', 'rate']
+
+
+@admin.register(models.Reservation)
+class ReservationAdmin(admin.ModelAdmin):
+    list_display = ['reservation_date']
+
+
+@admin.register(models.Bill)
+class BillAdmin(admin.ModelAdmin):
+    list_display = ['ticket', 'user', 'rate']
+
+
+@admin.register(models.Rate)
+class RateAdmin(admin.ModelAdmin):
+    list_display = ['name', 'price', 'description', 'service']

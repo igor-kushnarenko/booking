@@ -4,17 +4,14 @@ from rest_framework import routers
 
 from board import views
 
-
 router = routers.DefaultRouter()
 router.register(r'user', views.UserViewSet)
-router.register(r'booking', views.BookingViewSet)
-router.register(r'rate', views.RateViewSet)
+router.register(r'seats', views.SeatsViewSet)
 router.register(r'service', views.ServiceViewSet)
-router.register(r'time', views.TimeViewSet)
-router.register(r'chair', views.ChairViewSet)
-
+router.register(r'vault', views.VaultViewSet)
+router.register(r'rate', views.RateViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('router/', include(router.urls)),
+    path('api/', include(router.urls)),
 ]
