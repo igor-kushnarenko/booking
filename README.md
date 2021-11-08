@@ -4,6 +4,11 @@
 # ER-диаграмма
 https://drawsql.app/pa_group/diagrams/booking#
 
+# API
+1. pip install requirements.txt
+2. install postgreSQL
+4. http://127.0.0.1:8000/api/
+
 # Краткое описание БД - из каких таблиц и представлений состоит.
 1. visit
 
@@ -13,7 +18,7 @@ user_id - идентификатор пользователя
 
 date_visit - дата визита
 
-time_period - временной период
+time_id - временной период
 
 servise_id - вид услуги
 
@@ -96,6 +101,7 @@ number_persons - количество персон
 
 rate_id - идентификатор тарифа
 
+
 9. reservation
 
 id - PK
@@ -110,6 +116,8 @@ time_reservation - время резервации
 id - PK
 
 name - наименование тарифа
+
+price - стоимость тарифа
 
 
 11. bill
@@ -132,3 +140,11 @@ ticket_id - идентификатор билета
 user_id - идентификатор пользователя
 
 rate_it - идентификатор тарифа
+
+
+
+13. time
+
+id - PK
+
+name - наивенование временного промежутка
