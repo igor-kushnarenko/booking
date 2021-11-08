@@ -16,15 +16,6 @@ class ChairSerializer(serializers.ModelSerializer):
         fields = ('id', 'service_name', 'number')
 
 
-# class PriceRateSerializer(serializers.ModelSerializer):
-#     service_name = serializers.CharField(source='service')
-#     rate_name = serializers.CharField(source='rate')
-#
-#     class Meta:
-#         model = PriceRate
-#         fields = ('id', 'service_name', 'rate_name', 'price')
-
-
 class ServiceSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Service

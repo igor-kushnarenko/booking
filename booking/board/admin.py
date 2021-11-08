@@ -19,11 +19,6 @@ class RateAdmin(admin.ModelAdmin):
     list_display = ['name']
 
 
-# @admin.register(PriceRate)
-# class PriceRateAdmin(admin.ModelAdmin):
-#     list_display = ['service', 'rate', 'price']
-
-
 @admin.register(Chair)
 class ChairAdmin(admin.ModelAdmin):
     list_display = ['service', 'number']

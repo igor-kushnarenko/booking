@@ -10,7 +10,6 @@ router.register(r'user', views.UserViewSet)
 router.register(r'booking', views.BookingViewSet)
 router.register(r'rate', views.RateViewSet)
 router.register(r'service', views.ServiceViewSet)
-# router.register(r'price_rate', views.PriceRateViewSet)
 router.register(r'time', views.TimeViewSet)
 router.register(r'chair', views.ChairViewSet)
 
