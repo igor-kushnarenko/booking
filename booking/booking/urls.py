@@ -10,6 +10,7 @@ router.register(r'seats', views.SeatsViewSet)
 router.register(r'service', views.ServiceViewSet)
 router.register(r'vault', views.VaultViewSet)
 router.register(r'rate', views.RateViewSet)
+router.register(f'user_devices', views.UserDevicesViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),

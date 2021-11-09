@@ -9,6 +9,11 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.UserSerializer
 
 
+class UserDevicesViewSet(viewsets.ModelViewSet):
+    queryset = models.UserDevices.objects.all()
+    serializer_class = serializers.UserDevicesSerializer
+
+
 class SeatsViewSet(viewsets.ModelViewSet):
     queryset = models.Seats.objects.all()
     serializer_class = serializers.SeatsSerializer

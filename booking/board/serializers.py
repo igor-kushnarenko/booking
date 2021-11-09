@@ -5,7 +5,15 @@ from board import models
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.User
-        fields = ['first_name', 'second_name', 'email']
+        fields = ['first_name', 'second_name', 'email', 'uuid']
+
+
+class UserDevicesSerializer(serializers.ModelSerializer):
+    user_name = serializers.CharField(source='user')
+
+    class Meta:
+        model = models.UserDevices
+        fields = ['device_firebase_id', 'uuid', 'jwt', 'jwt_renew', 'user_name']
 
 
 class SeatsSerializer(serializers.ModelSerializer):
