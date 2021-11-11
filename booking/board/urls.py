@@ -6,6 +6,7 @@ from board import views
 urlpatterns = [
     path('user/<int:pk>', views.UserRetrieveUpdateView.as_view()),
     path('user/update/<int:pk>', views.UserUpdateView.as_view()),
+    path('user/destroy/<int:pk>', views.UserDestroyView.as_view()),
     path('user/all', views.UserListView.as_view()),
     path('user/new', views.UserCreateView.as_view()),
 
