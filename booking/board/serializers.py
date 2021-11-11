@@ -27,7 +27,7 @@ class SeatsSerializer(serializers.ModelSerializer):
 class ServiceSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Service
-        fields = ('name',)
+        fields = '__all__'
 
 
 class VaultSerializer(serializers.ModelSerializer):

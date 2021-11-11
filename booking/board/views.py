@@ -20,6 +20,31 @@ class UserUpdateView(generics.UpdateAPIView):
     serializer_class = serializers.UserSerializer
 
 
+class UserCreateView(generics.CreateAPIView):
+    queryset = models.User.objects.all()
+    serializer_class = serializers.UserSerializer
+
+
+class ServiceListView(generics.ListAPIView):
+    queryset = models.Service.objects.all()
+    serializer_class = serializers.ServiceSerializer
+
+
+class ServiceRetrieveUpdateView(generics.RetrieveUpdateAPIView):
+    queryset = models.Service.objects.all()
+    serializer_class = serializers.ServiceSerializer
+
+
+class ServiceUpdateView(generics.UpdateAPIView):
+    queryset = models.Service.objects.all()
+    serializer_class = serializers.ServiceSerializer
+
+
+class ServiceCreateView(generics.CreateAPIView):
+    queryset = models.Service.objects.all()
+    serializer_class = serializers.ServiceSerializer
+
+
 class UserDevicesViewSet(viewsets.ModelViewSet):
     queryset = models.UserDevices.objects.all()
     serializer_class = serializers.UserDevicesSerializer
@@ -28,11 +53,6 @@ class UserDevicesViewSet(viewsets.ModelViewSet):
 class SeatsViewSet(viewsets.ModelViewSet):
     queryset = models.Seats.objects.all()
     serializer_class = serializers.SeatsSerializer
-
-
-class ServiceViewSet(viewsets.ModelViewSet):
-    queryset = models.Service.objects.all()
-    serializer_class = serializers.ServiceSerializer
 
 
 class VaultViewSet(viewsets.ModelViewSet):
