@@ -70,6 +70,11 @@ class ServiceCreateView(generics.CreateAPIView):
     serializer_class = serializers.ServiceSerializer
 
 
+class VisitListView(generics.ListAPIView):
+    queryset = models.Visit.objects.all()
+    serializer_class = serializers.VisitSerializer
+
+
 class UserDevicesViewSet(viewsets.ModelViewSet):
     queryset = models.UserDevices.objects.all()
     serializer_class = serializers.UserDevicesSerializer

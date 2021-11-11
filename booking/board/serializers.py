@@ -50,3 +50,11 @@ class RateSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Rate
         fields = ('name', 'price', 'description', 'service_name')
+
+
+class VisitSerializer(serializers.ModelSerializer):
+    # service_name = serializers.CharField(source='service')
+
+    class Meta:
+        model = models.Visit
+        fields = '__all__'
