@@ -1,10 +1,21 @@
 from rest_framework import viewsets
+from rest_framework import generics
 
 from board import serializers
 from board import models
 
 
-class UserViewSet(viewsets.ModelViewSet):
+class UserListView(generics.ListAPIView):
+    queryset = models.User.objects.all()
+    serializer_class = serializers.UserSerializer
+
+
+class UserRetrieveUpdateView(generics.RetrieveUpdateAPIView):
+    queryset = models.User.objects.all()
+    serializer_class = serializers.UserSerializer
+
+
+class UserUpdateView(generics.UpdateAPIView):
     queryset = models.User.objects.all()
     serializer_class = serializers.UserSerializer
 

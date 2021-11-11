@@ -2,10 +2,10 @@ from rest_framework import serializers
 from board import models
 
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.User
-        fields = ['first_name', 'second_name', 'email', 'uuid']
+        fields = '__all__'
 
 
 class UserDevicesSerializer(serializers.ModelSerializer):
