@@ -98,6 +98,7 @@ class Seats(models.Model):
     class Meta:
         verbose_name_plural = 'Шезлонги'
         verbose_name = 'Шезлонг'
+        unique_together = ('service', 'seat_number') # уникальное сочетание полей в моделе
 
 
 class Vault(models.Model):
