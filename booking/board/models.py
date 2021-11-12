@@ -1,3 +1,5 @@
+from django.core.exceptions import ValidationError
+from django.core import validators
 from django.db import models
 from django.dispatch import receiver
 from django.db.models.signals import post_save
@@ -241,9 +243,19 @@ class Bill(models.Model):
         verbose_name = 'Счет'
 
 
+def min_max_validator(val):
+    if val < 100 or val > 100000:
+        raise ValidationError('Стоимость должна быть в диапазоне от 100 руб., до 100 000 руб.', code='out_of_range')
+
+
 class Rate(models.Model):
     name = models.CharField(null=False, default='', max_length=30, verbose_name='Тариф')
-    price = models.FloatField(null=False, default=0, verbose_name='Стоимость')
+    price = models.FloatField(
+        null=False,
+        default=100,
+        verbose_name='Стоимость',
+        validators=[min_max_validator],  # кастомный валидатор
+    )
     description = models.TextField(null=False, default='', verbose_name='Описание тарифа')
     service = models.ForeignKey(
         Service,
@@ -260,3 +272,4 @@ class Rate(models.Model):
     class Meta:
         verbose_name_plural = 'Тарифы'
         verbose_name = 'Тариф'
+        unique_together = ['name', 'service']
