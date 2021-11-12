@@ -1,11 +1,14 @@
 from django.db import models
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 
 
 class User(models.Model):
     first_name = models.CharField(null=False, default='', max_length=30, verbose_name='Имя')
     second_name = models.CharField(null=False, default='', max_length=30, verbose_name='Фамилия')
-    email = models.EmailField(null=False, default='', max_length=30, verbose_name='Электронная почта')
-    uuid = models.TextField(null=False, default='', verbose_name='uuid')
+    email = models.EmailField(null=False, default='', max_length=30, unique=True, verbose_name='Электронная почта')
+    birthday = models.DateField(verbose_name='День рождения')
+    uuid = models.TextField(null=False, default='', unique=True, verbose_name='uuid')
 
     def __str__(self):
         return f'{self.first_name} {self.second_name}'
@@ -14,6 +17,29 @@ class User(models.Model):
         ordering = ['second_name']
         verbose_name_plural = 'Пользователи'
         verbose_name = 'Пользователь'
+
+
+# class Profile(models.Model):
+#     user = models.OneToOneField(User, on_delete=models.CASCADE)
+#     first_name = models.CharField(null=False, default='', max_length=30, verbose_name='Имя')
+#     second_name = models.CharField(null=False, default='', max_length=30, verbose_name='Фамилия')
+#     uuid = models.TextField(null=False, default='', verbose_name='uuid')
+#     birth_date = models.DateField(null=True, blank=True, verbose_name='День рождения')
+#
+#     class Meta:
+#         verbose_name_plural = 'Пользователи'
+#         verbose_name = 'Пользователь'
+#
+#
+# @receiver(post_save, sender=User)
+# def create_user_profile(sender, instance, created, **kwargs):
+#     if created:
+#         Profile.objects.create(user=instance)
+#
+#
+# @receiver(post_save, sender=User)
+# def save_user_profile(sender, instance, **kwargs):
+#     instance.profile.save()
 
 
 class Auth(models.Model):

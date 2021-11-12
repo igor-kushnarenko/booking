@@ -1,5 +1,6 @@
 from rest_framework import viewsets
-from rest_framework import generics
+from rest_framework import generics, permissions
+from rest_framework.permissions import IsAuthenticated
 
 from board import serializers
 from board import models
@@ -8,6 +9,7 @@ from board import models
 class UserListView(generics.ListAPIView):
     # queryset = models.User.objects.all()
     serializer_class = serializers.UserSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
         queryset = models.User.objects.all()
@@ -33,11 +35,13 @@ class UserListView(generics.ListAPIView):
 class UserRetrieveUpdateView(generics.RetrieveUpdateAPIView):
     queryset = models.User.objects.all()
     serializer_class = serializers.UserSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
 class UserUpdateView(generics.UpdateAPIView):
     queryset = models.User.objects.all()
     serializer_class = serializers.UserSerializer
+    permission_classes = [permissions.IsAdminUser]
 
 
 class UserCreateView(generics.CreateAPIView):
@@ -48,6 +52,7 @@ class UserCreateView(generics.CreateAPIView):
 class UserDestroyView(generics.DestroyAPIView):
     queryset = models.User.objects.all()
     serializer_class = serializers.UserSerializer
+    permission_classes = [permissions.IsAdminUser]
 
 
 class ServiceListView(generics.ListAPIView):
