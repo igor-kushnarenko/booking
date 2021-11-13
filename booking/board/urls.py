@@ -23,5 +23,10 @@ urlpatterns = [
     path('service/all', views.ServiceListView.as_view()),
     path('service/new', views.ServiceCreateView.as_view()),
 
+    path('rate/<int:pk>', views.RateRetrieveUpdateView.as_view()),
+    path('rate/update/<int:pk>', views.RateUpdateView.as_view()),
+    path('rate/all', views.RateListViewSet.as_view()),
+    path('rate/new', views.RateCreateView.as_view()),
+
     path('visit/all', views.VisitListView.as_view()),
 ]
