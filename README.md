@@ -9,21 +9,35 @@ https://drawsql.app/pa_group/diagrams/booking#
 2. install postgreSQL
 4. http://127.0.0.1:8000/api/
 
+
 API-Autentification
+
 http://127.0.0.1:8000/api/auth/
+
 http://127.0.0.1:8000/api/auth/users/
 
+
 API-Token
+
 http://127.0.0.1:8000/api/token/
+
 http://127.0.0.1:8000/api/token/refresh/
+
 http://127.0.0.1:8000/api/token/verify/
 
+
 API-User
+
 http://127.0.0.1:8000/api/user/all
+
 http://127.0.0.1:8000/api/user/<int:pk>
+
 http://127.0.0.1:8000/api/user/update/<int:pk>
+
 http://127.0.0.1:8000/api/user/destroy/<int:pk>
+
 http://127.0.0.1:8000/api/user/new
+
 
 
 # Краткое описание БД - из каких таблиц и представлений состоит.
