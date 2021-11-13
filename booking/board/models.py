@@ -1,10 +1,16 @@
+from django.core.exceptions import ValidationError
+from django.core import validators
 from django.db import models
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 
 
 class User(models.Model):
-    first_name = models.CharField(max_length=20, verbose_name='Имя')
-    second_name = models.CharField(max_length=20, verbose_name='Фамилия')
-    email = models.EmailField(max_length=30, verbose_name='Электронная почта')
+    first_name = models.CharField(null=False, default='', max_length=30, verbose_name='Имя')
+    second_name = models.CharField(null=False, default='', max_length=30, verbose_name='Фамилия')
+    email = models.EmailField(null=False, default='', max_length=30, unique=True, verbose_name='Электронная почта')
+    birthday = models.DateField(verbose_name='День рождения')
+    uuid = models.TextField(null=False, default='', unique=True, verbose_name='uuid')
 
     def __str__(self):
         return f'{self.first_name} {self.second_name}'
@@ -15,21 +21,59 @@ class User(models.Model):
         verbose_name = 'Пользователь'
 
 
+# class Profile(models.Model):
+#     user = models.OneToOneField(User, on_delete=models.CASCADE)
+#     first_name = models.CharField(null=False, default='', max_length=30, verbose_name='Имя')
+#     second_name = models.CharField(null=False, default='', max_length=30, verbose_name='Фамилия')
+#     uuid = models.TextField(null=False, default='', verbose_name='uuid')
+#     birth_date = models.DateField(null=True, blank=True, verbose_name='День рождения')
+#
+#     class Meta:
+#         verbose_name_plural = 'Пользователи'
+#         verbose_name = 'Пользователь'
+#
+#
+# @receiver(post_save, sender=User)
+# def create_user_profile(sender, instance, created, **kwargs):
+#     if created:
+#         Profile.objects.create(user=instance)
+#
+#
+# @receiver(post_save, sender=User)
+# def save_user_profile(sender, instance, **kwargs):
+#     instance.profile.save()
+
+
 class Auth(models.Model):
     user = models.ForeignKey(
         User,
         on_delete=models.SET_DEFAULT,
-        default=None,
-        null=True,
+        default='',
+        null=False,
         verbose_name='Пользователь',
         related_name='auth'
     )
-    login = models.CharField(max_length=64, verbose_name='Логин')
-    password = models.CharField(max_length=64, verbose_name='Пароль')
+    login = models.CharField(null=False, default='', max_length=64, verbose_name='Логин')
+    password = models.CharField(null=False, default='', max_length=64, verbose_name='Пароль')
+
+
+class UserDevices(models.Model):
+    device_firebase_id = models.TextField(null=False, default='', verbose_name='device_firebase_id')
+    uuid = models.TextField(null=False, default='', verbose_name='uuid')
+    jwt = models.TextField(null=False, default='', verbose_name='jwt')
+    jwt_renew = models.TextField(null=False, default='', verbose_name='jwt_renew')
+    user = models.ForeignKey(
+        User,
+        null=False,
+        default='',
+        verbose_name='Пользователь',
+        related_name='UserDevices',
+        on_delete=models.CASCADE,
+    )
 
 
 class Service(models.Model):
-    name = models.CharField(max_length=30, verbose_name='Сервис')
+    name = models.CharField(null=False, default='', max_length=50, verbose_name='Сервис')
 
     def __str__(self):
         return f'{self.name}'
@@ -43,12 +87,12 @@ class Seats(models.Model):
     service = models.ForeignKey(
         Service,
         on_delete=models.SET_DEFAULT,
-        default=None,
-        null=True,
+        default='',
+        null=False,
         verbose_name='Сервис',
         related_name='seats'
     )
-    seat_number = models.IntegerField(verbose_name='Номер шезлонга')
+    seat_number = models.IntegerField(null=False, default='', verbose_name='Номер шезлонга')
 
     def __str__(self):
         return f'{self.seat_number}'
@@ -56,18 +100,19 @@ class Seats(models.Model):
     class Meta:
         verbose_name_plural = 'Шезлонги'
         verbose_name = 'Шезлонг'
+        unique_together = ('service', 'seat_number') # уникальное сочетание полей в моделе
 
 
 class Vault(models.Model):
     service = models.ForeignKey(
         Service,
         on_delete=models.SET_DEFAULT,
-        default=None,
-        null=True,
+        default='',
+        null=False,
         verbose_name='Сервис',
         related_name='vault'
     )
-    vault_number = models.IntegerField(verbose_name='Номер сейфа')
+    vault_number = models.IntegerField(null=False, default=0, verbose_name='Номер сейфа')
 
     def __str__(self):
         return f'{self.vault_number}'
@@ -90,16 +135,16 @@ class Visit(models.Model):
     service = models.ForeignKey(
         Service,
         on_delete=models.SET_DEFAULT,
-        default=None,
-        null=True,
+        default='',
+        null=False,
         verbose_name='Сервис',
         related_name='visit'
     )
     user = models.ForeignKey(
         User,
         on_delete=models.SET_DEFAULT,
-        default=None,
-        null=True,
+        default='',
+        null=False,
         verbose_name='Пользователь',
         related_name='visit'
     )
@@ -110,7 +155,7 @@ class Visit(models.Model):
 
 
 class Time(models.Model):
-    start_time = models.CharField(max_length=50, verbose_name='Время')
+    start_time = models.CharField(null=False, default='', max_length=50, verbose_name='Время')
 
     def __str__(self):
         return f'{self.start_time}'
@@ -124,26 +169,26 @@ class Ticket(models.Model):
     visit = models.ForeignKey(
         Visit,
         on_delete=models.SET_DEFAULT,
-        default=None,
-        null=True,
+        default='',
+        null=False,
         verbose_name='Посещение',
         related_name='ticket'
     )
     reservation = models.ForeignKey(
         'Reservation',
         on_delete=models.SET_DEFAULT,
-        default=None,
-        null=True,
+        default='',
+        null=False,
         verbose_name='Резервирование',
         related_name='ticket'
     )
-    ticket_number = models.IntegerField(verbose_name='Номер билета')
-    number_persons = models.IntegerField(verbose_name='Количество персон')
+    ticket_number = models.IntegerField(null=False, default=0, verbose_name='Номер билета')
+    number_persons = models.IntegerField(null=False, default=0, verbose_name='Количество персон')
     rate = models.ForeignKey(
         'Rate',
         on_delete=models.SET_DEFAULT,
-        default=None,
-        null=True,
+        default='',
+        null=False,
         verbose_name='Тариф',
         related_name='ticket'
     )
@@ -171,24 +216,24 @@ class Bill(models.Model):
     ticket = models.ForeignKey(
         Ticket,
         on_delete=models.SET_DEFAULT,
-        default=None,
-        null=True,
+        default='',
+        null=False,
         verbose_name='Билет',
         related_name='bill'
     )
     user = models.ForeignKey(
         User,
         on_delete=models.SET_DEFAULT,
-        default=None,
-        null=True,
+        default='',
+        null=False,
         verbose_name='Пользователь',
         related_name='bill'
     )
     rate = models.ForeignKey(
         'Rate',
         on_delete=models.SET_DEFAULT,
-        default=None,
-        null=True,
+        default='',
+        null=False,
         verbose_name='Тариф',
         related_name='bill'
     )
@@ -198,15 +243,25 @@ class Bill(models.Model):
         verbose_name = 'Счет'
 
 
+def min_max_validator(val):
+    if val < 100 or val > 100000:
+        raise ValidationError('Стоимость должна быть в диапазоне от 100 руб., до 100 000 руб.', code='out_of_range')
+
+
 class Rate(models.Model):
-    name = models.CharField(max_length=30, verbose_name='Тариф')
-    price = models.FloatField(verbose_name='Стоимость', default=None)
-    description = models.TextField(verbose_name='Описание тарифа')
+    name = models.CharField(null=False, default='', max_length=30, verbose_name='Тариф')
+    price = models.FloatField(
+        null=False,
+        default=100,
+        verbose_name='Стоимость',
+        validators=[min_max_validator],  # кастомный валидатор
+    )
+    description = models.TextField(null=False, default='', verbose_name='Описание тарифа')
     service = models.ForeignKey(
         Service,
         on_delete=models.SET_DEFAULT,
-        default=None,
-        null=True,
+        default='',
+        null=False,
         verbose_name='Сервис',
         related_name='rate'
     )
@@ -217,3 +272,4 @@ class Rate(models.Model):
     class Meta:
         verbose_name_plural = 'Тарифы'
         verbose_name = 'Тариф'
+        unique_together = ['name', 'service']

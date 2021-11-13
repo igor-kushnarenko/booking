@@ -2,10 +2,18 @@ from rest_framework import serializers
 from board import models
 
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.User
-        fields = ['first_name', 'second_name', 'email']
+        fields = '__all__'
+
+
+class UserDevicesSerializer(serializers.ModelSerializer):
+    user_name = serializers.CharField(source='user')
+
+    class Meta:
+        model = models.UserDevices
+        fields = ['device_firebase_id', 'uuid', 'jwt', 'jwt_renew', 'user_name']
 
 
 class SeatsSerializer(serializers.ModelSerializer):
@@ -19,7 +27,7 @@ class SeatsSerializer(serializers.ModelSerializer):
 class ServiceSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Service
-        fields = ('name',)
+        fields = '__all__'
 
 
 class VaultSerializer(serializers.ModelSerializer):
@@ -42,3 +50,11 @@ class RateSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Rate
         fields = ('name', 'price', 'description', 'service_name')
+
+
+class VisitSerializer(serializers.ModelSerializer):
+    # service_name = serializers.CharField(source='service')
+
+    class Meta:
+        model = models.Visit
+        fields = '__all__'
