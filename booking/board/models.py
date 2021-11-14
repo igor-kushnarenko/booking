@@ -272,4 +272,4 @@ class Rate(models.Model):
     class Meta:
         verbose_name_plural = 'Тарифы'
         verbose_name = 'Тариф'
-        unique_together = ['name', 'service']
+        unique_together = ['name', 'service',]
